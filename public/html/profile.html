@@ -1,0 +1,116 @@
+<html>
+
+
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700"
+    />
+
+    <title>Show profile</title>
+    
+ <!-- ✅ 로컬 빌드된 Tailwind CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  
+    <!-- ✅ CDN에서 Tailwind CSS 불러오기 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+  -->
+
+  </head>
+
+  
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#fbfbf9] group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f1f1ea] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#181811]">
+      
+            <h2 class="text-[#181811] text-lg font-bold leading-tight tracking-[-0.015em]" >
+              🍎 Apple Game</h2>
+          </div>
+
+          <!--Profile의 위치 조정-->
+          <div class="flex flex-1 justify-end gap-8">
+
+        <!--프로필 페이지에서 로비로 돌아가는 버튼-->
+            <div  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 bg-[#f4f4e6] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]"><a class="text-[#181811] text-sm font-bold leading-normal" href="lobby.html">Back to Lobby</a></div>
+              
+               <!-- 설정 아이콘(이미지 닉네임 등 부분 구성의 위치) -->
+              <div class="text-[#181811]" data-icon="Gear" data-size="200px" data-weight="regular">
+               
+              </div>
+           </div>
+        </header>
+
+        <!-- 프로필 콘텐츠 --> 
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] w-full">
+            
+            <!--profile 글자 부분-->
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <p class="text-[#181811] text-[32px] font-bold tracking-light align">Profile</p>
+            </div>
+
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex p-4 @container">
+              <div class="flex w-full flex-col gap-4 items-center">
+
+                <div class="flex gap-4 flex-col items-center">
+
+                  <!--나타나는 이미지 프로필 이미지 부분-->
+                  <div
+                    id="profile-image"
+                    class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                    style='background-image: url();'
+                  ></div>
+                  
+                  <!--profile부분 전체 요소 중앙 정렬-->
+                  <div class="flex flex-col items-center justify-center justify-center">
+
+                    <!-- 사용자 이름, ID, 랭킹 등 서버와 연동하는 기능 필요-->
+                    <p id="profile-name" class="text-[#181811] text-[22px] font-bold leading-tight tracking-[-0.015em] text-center"></p>
+                    <p id="profile-userid" class="text-[#89895d] text-base font-normal leading-normal text-center">User ID: apple</p>
+                    <p id="profile-ranking" class="text-[#89895d] text-base font-normal leading-normal text-center">Rating: 123</p>
+                 
+                  </div>
+                </div>
+
+                <button
+                 onclick="window.location.href='editprofile.html'"
+                  class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 bg-[#f4f4e6] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]"
+                >
+                  <span class="truncate">Edit Profile</span>
+                </button>
+
+
+              </div>
+            </div>
+
+            </div>
+            </div>
+        
+            <!--게임 전적이 뜰 수 있게 만드는 부분-->
+            <div class="items-start px-4">
+                <h2 class="text-[#101810] text-[22px] font-bold leading-tight tracking-[-0.015em] ">Game History</h2>
+                <!--전적이 뜨는 부분이 내부에서 스크롤 되게(전적이 4~5개 쌓이면 스크롤바 자동 생성)-->
+                <div id="game-history-container" class="flex flex-col gap-2 max-h-[300px] overflow-y-auto pr-2 ">
+                
+              
+          </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </body>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/profile.js"></script>
+</html>

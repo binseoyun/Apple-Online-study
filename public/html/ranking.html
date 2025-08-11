@@ -1,0 +1,104 @@
+<!--랭킹을 볼 수 있는 페이지 구성
+상위 3명은 고정된 페이지로 구성하고 나머지는 스크롤 해서 볼 수 있게 -->
+
+<html>
+    
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700"
+    />
+
+    <title>Ranking</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <!-- ✅ 로컬 빌드된 Tailwind CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  
+    <!-- ✅ CDN에서 Tailwind CSS 불러오기 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+  -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    
+  </head>
+
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-[#f9fbf9] group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#eaf1ea] px-10 py-3">
+        
+            <div class="flex items-center gap-4 text-[#101810]">
+
+               <div class="size-4">
+               </div>
+
+               <h2 class="text-[#101810] text-lg font-bold leading-tight tracking-[-0.015em]">🍎 Apple Game 🍎</h2>
+          </div>
+
+          <div class="flex flex-1 justify-end gap-4">
+            <div class="flex items-center gap-9">
+                <!--lobby로 가는 버튼-->
+             <button
+                onclick="window.location.href='lobby.html'"
+               class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 bg-[#f4f4e6] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]"
+             >
+           <span class="truncate">Back to Lobby</span>
+
+           <!--프로필로 가는 버튼-->
+           <button
+                onclick="window.location.href='profile.html'"
+               class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 bg-[#f4f4e6] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]"
+             >
+           <span class="truncate">View Profile</span>
+            </div>
+        </div>
+        </header>
+
+
+        <!--현재는 사용자 정보가 지정되어 있지만 동적으로 변경되게 만들어야 함-->
+
+        <!--사용자 랭킹 표시-->
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4"><p class="text-[#101810] tracking-light text-[32px] font-bold leading-tight min-w-72">Ranking</p></div>
+              
+            <!--Top3 Player-->
+            <h2 class="text-[#101810] text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">🏆Top 3   Players</h2>
+              
+            <!--동적으로 사용자 불러와서 Top3 표시할 수 있게 태그 수정-->
+
+            <div id="top-players" class="space-y-2"></div>
+            <div class="flex justify-center mt-4">
+              <p id="update-time" class="text-sm text-gray-500"></p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 폭죽 효과 함수 실행
+    launchConfetti();
+  });
+
+  function launchConfetti() {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
+  }
+</script>
+
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/ranking.js"></script>
+</html>
+

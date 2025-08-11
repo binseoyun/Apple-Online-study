@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <meta charset="UTF-8" />
+    <title>Apple Game</title>
+    <title>Apple Game</title>
+
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Spline+Sans:wght@400;500;700"
+    />
+     <!-- ✅ 로컬 빌드된 Tailwind CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  
+    <!-- ✅ CDN에서 Tailwind CSS 불러오기 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+  -->
+
+    <!--떨어지는 꽃가루 효과를 추가하기 위해 confetti 라이브러리 추가하기-->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    
+   
+  </head>
+
+
+  <body>
+    <!--게임 시작 전에 카운트다운 요소 추가
+    countdownOverlay: 화면 전체를 덮는 반투명 배경
+    counddowntText:중앙의 큰 숫자-->
+    <div id="countdownOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div id="countdownText" class="text-white text-8xl font-extrabold animate-pulse">3</div>
+    </div>
+  
+    <!--성공시 사운드 나게 오디오 태그 추가-->
+    <audio id="scoreSound" src="/sound.wav"  preload="auto"></audio>
+    <!--게임에서 이겼을 때 소리 추가-->
+    <audio id="winSound" src="/win.wav" preload="auto"></audio>
+    <!--게임에서 졌을 때 소리 추가-->
+    <audio id="loseSound" src="/lose.wav" preload="auto"></audio>
+    <!--게임에서 이겼을 때 배너 오버레이-->
+    <div id="winOverlay" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+       <div class="text-white text-5xl font-extrabold bg-green-500 px-10 py-6 rounded-3xl shadow-lg animate-bounce">
+         🎉 승리하였습니다! 🎉 </div>
+    </div>
+    <!--게임에서 졌을 때 배너 오버레이-->
+    <div id="loseOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-red-600 bg-opacity-90 hidden">
+       <div class="text-white text-6xl font-extrabold animate-bounce">😢 패배하였습니다 😢</div>
+    </div>
+    <!--게임에서 비겼을 때 배너 오버레이-->
+    <!-- 무승부 배너 -->
+    <div id="drawOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-yellow-400 bg-opacity-90 hidden">
+      <div class="text-[#1c1c0d] text-6xl font-extrabold animate-pulse">🤝 비겼습니다 🤝</div>
+    </div>
+   
+
+
+
+<!--#f8fcf8에서 bg 변경-->
+      <div class="relative flex size-full min-h-screen flex-col bg-[#f8fcf8] group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+        <div class="layout-container flex h-full grow flex-col">
+
+
+        <!-- 헤더 -->
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7f3e7] px-10 py-3">
+          <div class="flex items-center gap-4 text-[#0e1b0e]">
+          
+
+            <!--게임 제목 #0e1b0e에서 var(--text--color) 로 변경-->
+          <h2 class="text-[#0e1b0e] text-lg font-bold leading-tight tracking-[-0.015em]">🍎 Apple Game</h2>
+          
+          </div>
+
+          
+
+
+       <!-- ⏱️ 타이머 영역 -->
+       <div class="flex items-center gap-4 px-10 py-2">
+   
+
+
+
+       <!-- 숫자형 타이머 -->
+            <span id="timer-text" class="text-sm font-bold text-[#0e1b0e]">
+                Time: 60s </span>
+
+             <!-- 진행 바 타이머 -->
+                    <div class="w-[200px] h-3 rounded-full bg-gray-200 overflow-hidden">
+                 <div
+                    id="timer-bar"
+                   class="h-full bg-green-400 w-full transition-all duration-500"
+                   ></div>
+                 </div>
+
+          <button
+          onclick="window.location.href='lobby.html'"
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#19e519] text-[#0e1b0e] text-sm font-bold leading-normal tracking-[0.015em]"
+          >
+           <span class="truncate" >End Game</span>
+          </button>
+
+          
+         
+
+
+          
+
+
+        </header>
+
+
+        <!-- 중앙 콘텐츠 -->
+         <!--양쪽 여백 px-40, 콘텐츠는 flex-col로 세로 방향 구성-->
+        <div class="px-40 flex flex-1 justify-center py-5">
+           
+         <!--시간이 10초 이하가 되면 중앙 콘텐츠 부분이 빨간색이 되도록 id 추가-->
+          <div id="game-main" class="layout-content-container flex flex-col max-w-[960px] flex-1">
+
+            <h2 class="text-[#0e1b0e] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">Apple Game</h2>
+            <p class="text-[#0e1b0e] text-base font-normal leading-normal pb-3 pt-1 px-4 text-center">사과의 합을 10으로 만드세요.</p>
+
+            <!-- 사용자 정보-->
+             <!--사용자 프로필 2개 좌우 나란히 div>table>tr 구조로 정렬-->
+            <div style="display:flex;">
+
+              <!-- 사용자 1 -->
+              <div class="px-4 py-3 ">
+                <div class="flex overflow-hidden rounded-xl border border-[#d0e7d0] bg-[#f8fcf8]">
+
+                  
+                <table class="flex-1">
+                    <tbody>
+                      <!--tr: 테이블 한줄, td1: 안에 div가 들어있음 프로필 이미지 td2: 사용자 이름, td3: 스코어-->
+                      <tr class="border-t border-t-[#d0e7d0]">
+                        
+                        <td class="w-14 px-4 py-2 h-[72px]" >
+                          <div class="w-10 aspect-square bg-center bg-cover rounded-full" style='background-image: url();'></div>
+                        </td>
+                        <!--서버에서 이름과 score가지고 와야함-->
+                        <td class="w-[400px] text-[#0e1b0e] text-sm font-normal leading-normal"></td>
+                        <td class="w-[400px] text-[#4e974e] text-sm font-normal leading-normal" id="user1">Score: 0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+              <!-- 사용자 2 -->
+              <div class="px-4 py-3 ">
+                <div class="flex overflow-hidden rounded-xl border border-[#d0e7d0] bg-[#f8fcf8]">
+                  <table class="flex-1">
+                    <tbody>
+                      <tr class="border-t border-t-[#d0e7d0]">
+                        <td class="w-14 px-4 py-2 h-[72px]" >
+                          <div class="w-10 aspect-square bg-center bg-cover rounded-full" style='background-image: url();'></div>
+                        </td>
+                        <!--서버에서 사용자2 이름과 score 가지고 와야함-->
+                        <td class="w-[400px] text-[#0e1b0e] text-sm font-normal leading-normal"></td>
+                        <td class="w-[400px] text-[#4e974e] text-sm font-normal leading-normal" id="user2">Score: 0</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- 🟩 게임 보드 -->             
+<div id="drag-box" class="hidden fixed border-2 border-blue-400 bg-blue-200/30 pointer-events-none z-50"></div>
+            <div class="flex w-full justify-center items-center bg-[#f8fcf8] rounded-xl p-4">
+              <!--Tailwind로 17개의 열을 가진 CSS Gird 생성 
+              class grid-cols-17로 17개의 열을 생성하고, border와 배경색 설정
+              style 속성으로 너비와 높이 자동 설정-->
+              <div
+                 id="game-board"
+                 class="relative grid grid-cols-17 rounded-xl border border-[#d0e7d0] "
+                 style="display: grid; grid-template-columns: repeat(17, 1fr);  width:auto; height:auto
+                 ;"
+              >
+              <div id="opponent-cursor" style="position: absolute; display: none; width: 10px; height: 10px; background-image: url('/opponent_cursor.png'); background-size: contain; pointer-events: none; z-index: 100;"></div>
+              </div>
+            </div>
+          </div>  
+        </div>       
+      </div>
+    </div>
+
+    <!--game.js안에 넣으면 비동기 함수로 인해 호출 순서가 꼬여서 html 내부에 작성
+    카운트 다운 로직-->    <!-- 🧠 게임 보드 생성 스크립트 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/game.js"> </script>
+    <script>
+    function startCountdown(callback){
+    //카운트 다운 표시하는 부분과 텍스트 받아서 3초 카운트 진행
+    const overlay=document.getElementById("countdownOverlay");
+    const text=document.getElementById("countdownText");
+    let count=3;
+
+    text.textContent=count; //3초 카운트 진행예정
+    overlay.style.display="flex";
+
+    const interval=setInterval(()=>{
+      count--;
+      if(count>0){
+        text.textContent=count; 
+      } else if(count==0){
+        text.textContent="Start!";
+      }  else{ //3초가 지나면
+          clearInterval(interval); 
+          overlay.style.display="none"; //카운트 다운 화면 사라지게
+          //게임이 시작되게
+          if(callback) callback(); //이 부분에서 callback()이 실행됨
+        } 
+    },1000); 
+  }
+   document.addEventListener('DOMContentLoaded',()=>{
+    startCountdown(initializeGame);
+  });
+
+    </script>
+
+
+
+
+    <!-- 🧠 게임 보드 생성 스크립트 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/game.js"> </script>
+    <script src="/js/auth.js"></script>
+  
+    
+  </body>
+</html>

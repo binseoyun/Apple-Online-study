@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Room</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+  <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+    href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans:wght@400;500;700;900&family=Spline+Sans:wght@400;500;700" />
+  <!-- ✅ 로컬 빌드된 Tailwind CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+  
+    <!-- ✅ CDN에서 Tailwind CSS 불러오기 
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+  -->
+
+</head>
+<body class="bg-[#fcfcf8]" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/auth.js"></script>
+  <div class="relative flex min-h-screen flex-col">
+   <!--중앙 정렬-->
+      <div class="px-40 flex justify-center py-5 flex-1">
+        <!--수직으로 정렬되게-->
+        <div class="layout-content-container flex flex-col w-[512px] max-w-[960px] flex-1 py-5">
+          <h2 class="text-[#1c1c0d] text-[28px] font-bold leading-tight text-center px-4 pb-3 pt-5">🍎 Create a Room 🍎 </h2>
+
+          <div class="text-[#1c1c0d] text-base font-normal leading-normal text-center px-4 pb-3 pt-1">
+            <p>Enter a aroom name to create a new game room.</p>
+            
+          
+            <!--입력필드와 버튼을 묶어서 가운데 정렬 되게-->
+            <div class="flex justify-center items-center">
+            
+            
+          <!-- 입력 필드 -->
+          <div class="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
+            <label class="flex flex-col min-w-40 flex-1">
+              <input
+                id="roomName"
+                type="text"
+                placeholder="Room name"
+                class="form-input w-full rounded-xl text-[#1c1c0d] focus:outline-0 border-none bg-[#f4f4e6] h-14 placeholder:text-[#9e9e47] p-4 text-base font-normal"
+              />
+            </label>
+          </div>
+
+          <!-- 버튼 -->
+          <div class="flex px-4 py-3">
+
+            <!--비밀번호 안치면 그냥 Create 되게, 비밀번호 설정은 자유 Create 버튼을 누를 때 비밀번호 입력 창이 뜨게 수정
+            onclick="creaateRoom()" 에서 새로운 페이지로 수정-->
+            <button 
+              onclick="openPasswordModal()"
+              id="createRoom"
+              class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 flex-1 bg-[#e4e405] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]"
+            >
+              <span class="truncate">Create</span>
+            </button>
+          </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--추가한 부분-->
+  <!--모달: 비밀번호 입력창 -->
+  <div id="passwordModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white p-8 rounded-xl shadow-md w-[360px] text-center">
+      <h2 class="text-xl font-bold mb-4 text-[#1c1c0d]">Set Room Password</h2>
+      <input
+        id="roomPassword"
+        type="password"
+        placeholder="Enter a room password"
+        class="w-full border rounded-md px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      />
+
+      <div class="flex justify-between gap-2 mt-2">
+        <!--방 비밀번호 생성버튼과 비밀번호 없이 생성-->
+        <button
+          onclick="createRoom(true)"
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center rounded-full h-10 px-4 flex-1 bg-[#e4e405] text-[#1c1c0d] text-sm font-bold tracking-[0.015em]">
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+    
+  <!-- 스크립트 -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/addroom.js"></script>
+
+  <!--비밀번호 관련 스크립트 -->
+  <script>
+    function openPasswordModal() {
+      const roomName = document.getElementById("roomName").value.trim();
+      document.getElementById("passwordModal").classList.remove("hidden");
+    }
+
+    function submitRoom(withPassword) {
+      const roomName = document.getElementById("roomName").value.trim();
+      const password = withPassword ? document.getElementById("roomPassword").value : "";
+
+      
+    
+      // 모달 닫기
+      document.getElementById("passwordModal").classList.add("hidden");
+      window.location.href='lobby.html'
+    }
+  </script>
+</body>
+</html>
