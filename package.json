@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
   "scripts": {
-   "dev:css": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --watch",
-  "build:css": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --minify"
-},
-  
+    "dev:css": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --watch",
+    "build:css": "npx tailwindcss -i ./src/input.css -o ./public/css/style.css --minify"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,5 +15,8 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.4.7"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
