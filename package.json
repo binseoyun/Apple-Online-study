@@ -21,6 +21,7 @@
     "express": "^5.1.0",
     "mysql2": "^3.14.3",
     "redis": "^5.8.1",
+    "seedrandom": "^3.0.5",
     "socket.io": "^4.8.1"
   }
 }
